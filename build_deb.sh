@@ -23,6 +23,20 @@ Description: HCP - Historical Clipboard Manager
 Depends: xclip
 EOF
 
+# Create postinst script directly
+cat > $PKGDIR/DEBIAN/postinst <<'POSTINST'
+#!/bin/sh
+set -e
+
+echo ""
+echo "After install, enable and start the service with:"
+echo "  sudo systemctl daemon-reload"
+echo "  sudo systemctl enable hcp@root.service"
+echo "  sudo systemctl start hcp@root.service"
+echo ""
+POSTINST
+chmod 755 $PKGDIR/DEBIAN/postinst
+
 # Build the binary
 make
 cp hcp $PKGDIR/usr/bin/hcp
