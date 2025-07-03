@@ -33,7 +33,16 @@ void append_clipboard_block(const std::string& entry) {
     }
     uint32_t len = entry.size();
     out.write(reinterpret_cast<const char*>(&len), sizeof(len));
+    // std::ofstream does not throw exceptions by default, we have to check manually using good
+    if (!out.good()) {
+        log_event("[hcp] ERROR: Failed to write clipboard entry data to history block file (possibly corrupted or truncated file)");
+        return;
+    }
     out.write(entry.data(), len);
+    if (!out.good()) {
+        log_event("[hcp] ERROR: Failed to write clipboard entry data to history block file (possibly corrupted or truncated file)");
+        return;
+    }
 }
 
 // Read all clipboard entries from the block file (most recent first)

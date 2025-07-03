@@ -3,6 +3,7 @@ set -e
 
 VERSION=${VERSION:-1.0.0}
 PKGDIR=hcp_$VERSION
+USERNAME=$(logname 2>/dev/null || echo root)
 
 # Clean up any previous build
 rm -rf $PKGDIR
@@ -28,7 +29,6 @@ cat > $PKGDIR/DEBIAN/postinst <<'POSTINST'
 #!/bin/sh
 set -e
 
-USERNAME=$(logname 2>/dev/null || echo root)
 echo ""
 echo "After install, enable and start the service with:"
 echo "  sudo systemctl daemon-reload"
