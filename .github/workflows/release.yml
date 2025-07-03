@@ -21,10 +21,12 @@ jobs:
 
       - name: Build in Ubuntu 20.04 Docker container
         run: |
+          VERSION=${GITHUB_REF##*/}
+          VERSION=${VERSION#v}
           docker run --rm -v $PWD:/src -w /src ubuntu:20.04 bash -c "
             apt-get update &&
             apt-get install -y build-essential xclip dpkg-dev &&
-            VERSION=${GITHUB_REF##*/} ./build_deb.sh
+            VERSION=$VERSION ./build_deb.sh
           "
 
       - name: Create GitHub Release if not exists
