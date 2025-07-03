@@ -10,14 +10,9 @@ Download the latest `.deb` package from [the Releases page](https://github.com/A
 ```sh
 sudo dpkg -i hcp_1.0.0.deb
 ```
+follow instructions to start the hpc service and use binary to list the clipboards and print the nth entry
 
 ## Usage
-
-### Start the Clipboard Service
-This will monitor your clipboard and save changes:
-```sh
-./hcp service start
-```
 
 ### List Clipboard History
 ```sh
