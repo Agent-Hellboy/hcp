@@ -3,4 +3,4 @@
 #include <string>
 
 std::string get_clipboard();
-#endif // CLIPBOARD_MGMT_HPP 
+#endif // CLIPBOARD_MGMT_HPP

@@ -2,5 +2,5 @@
 #define LOGGING_HPP
 #include <string>
 
-void log_event(const std::string& msg);
-#endif // LOGGING_HPP 
+void log_event(const std::string &msg);
+#endif // LOGGING_HPP
