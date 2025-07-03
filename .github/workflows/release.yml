@@ -6,7 +6,7 @@ on:
       - 'v*'  # Trigger on tags like "v1.0.0"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -26,6 +26,13 @@ jobs:
           VERSION="${GITHUB_REF##*/}"
           chmod +x build_deb.sh
           VERSION=${VERSION#v} ./build_deb.sh
+
+      - name: Create GitHub Release if not exists
+        run: |
+          VERSION="${GITHUB_REF##*/}"
+          gh release view "$VERSION" || gh release create "$VERSION" --title "$VERSION" --notes "Automated release"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload .deb to Existing Release
         run: |
