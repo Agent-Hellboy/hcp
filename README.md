@@ -2,7 +2,7 @@
 
 - A simple clipboard manager for Linux that saves your clipboard history to a file, with each clipboard entry separated by a distinct marker.
 
-- Save and list clipboard entries: if you've copied (Ctrl+C) text 8 times, you can access all 8 previous clipboard entries—similar to how you can use `git stash pop` to retrieve past stashes.
+- Save and list clipboard entries: if you've copied (Ctrl+C) text 8 times, you can access all 8 previous clipboard entries, similar to how you can use `git stash pop` to retrieve past stashes.
 
 ## Installation
 
@@ -10,14 +10,9 @@ Download the latest `.deb` package from [the Releases page](https://github.com/A
 ```sh
 sudo dpkg -i hcp_1.0.0.deb
 ```
+follow instructions to start the hpc service and use binary to list the clipboards and print the nth entry
 
 ## Usage
-
-### Start the Clipboard Service
-This will monitor your clipboard and save changes:
-```sh
-./hcp service start
-```
 
 ### List Clipboard History
 ```sh
