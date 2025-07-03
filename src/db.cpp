@@ -10,6 +10,7 @@
 #include <algorithm>
 
 const int HCP_MAX_HISTORY = 20;
+constexpr uint32_t MAX_CLIPBOARD_SIZE = 16 * 1024 * 1024; // 16MB typical max
 
 std::string get_hcp_dir() {
     const char* home = getenv("HOME");
@@ -62,6 +63,10 @@ std::vector<std::string> load_clipboard_blocks() {
         }
         if (len == 0) {
             log_event("[hcp] WARNING: Encountered clipboard entry with zero length in history block file (skipping)");
+            break;
+        }
+        if (len > MAX_CLIPBOARD_SIZE) {
+            log_event("[hcp] WARNING: Clipboard entry size exceeds max allowed (" + std::to_string(len) + " bytes), skipping (possible corruption)");
             break;
         }
         std::string entry(len, '\0');
