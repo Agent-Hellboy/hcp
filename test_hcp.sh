@@ -6,7 +6,7 @@ echo "Cleaning up previous clipboard history..."
 rm -f ~/.hcp/db
 
 # Start the service in the background
-./hcp service start &
+hcp service start &
 HCP_PID=$!
 sleep 1
 
@@ -32,7 +32,7 @@ fi
 
 echo "Testing list command..."
 # Test list command
-if ./hcp list | grep -q "Test clipboard entry 1"; then
+if hcp list | grep -q "Test clipboard entry 1"; then
     echo "PASS: List command works."
 else
     echo "FAIL: List command does not show expected entry."
@@ -41,7 +41,7 @@ fi
 
 echo "Testing print_entry command..."
 # Test print_entry command
-if ./hcp 1 | grep -q "Test clipboard entry 2"; then
+if hcp 1 | grep -q "Test clipboard entry 2"; then
     echo "PASS: Print entry command works."
 else
     echo "FAIL: Print entry command does not show expected entry."
