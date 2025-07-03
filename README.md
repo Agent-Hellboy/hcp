@@ -22,13 +22,14 @@ hcp service start &
 ```
 
 or as a systemd service (Recommended):
-(You will see these instructions after the installation is finished.)
 
 ```sh
 sudo systemctl daemon-reload
 sudo systemctl enable hcp@$(logname).service
 sudo systemctl start hcp@$(logname).service
 ```
+
+(You will see these instructions after the installation is finished.)
 
 ### List Clipboard History
 ```sh

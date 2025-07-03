@@ -29,6 +29,7 @@ cat > $PKGDIR/DEBIAN/postinst <<'POSTINST'
 #!/bin/sh
 set -e
 
+USERNAME=$(logname 2>/dev/null || echo root)
 echo ""
 echo "After install, enable and start the service with:"
 echo "  sudo systemctl daemon-reload"
