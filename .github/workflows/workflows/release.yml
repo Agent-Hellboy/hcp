@@ -1,0 +1,36 @@
+name: Build and Release .deb Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential xclip dpkg-dev
+
+      - name: Build .deb package
+        run: |
+          cd hcp
+          chmod +x build_deb.sh
+          ./build_deb.sh
+          mv hcp_*.deb ../
+
+      - name: Find .deb package
+        id: find_deb
+        run: |
+          DEB_FILE=$(ls hcp_*.deb | head -n1)
+          echo "deb_file=$DEB_FILE" >> $GITHUB_OUTPUT
+
+      - name: Upload .deb as release artifact
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.find_deb.outputs.deb_file }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
