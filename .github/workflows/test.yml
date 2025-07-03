@@ -1,0 +1,39 @@
+name: Test hcp .deb
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xclip wget dpkg
+
+      - name: Download latest .deb from GitHub Releases
+        run: |
+          LATEST_URL=$(curl -s https://api.github.com/repos/Agent-Hellboy/hcp/releases/latest | grep browser_download_url | grep .deb | cut -d '"' -f 4)
+          wget "$LATEST_URL" -O hcp_latest.deb
+
+      - name: Install hcp .deb
+        run: |
+          sudo dpkg -i hcp_latest.deb
+          sudo apt-get install -f -y
+
+      - name: Checkout test script
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            test_hcp.sh
+
+      - name: Make test script executable
+        run: chmod +x test_hcp.sh
+
+      - name: Run hcp integration test
+        run: ./test_hcp.sh 
