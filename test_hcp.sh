@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-# Clean up previous history
+# Clean up previous clipboard history
 echo "Cleaning up previous clipboard history..."
-rm -f ~/.hcp/db
+rm -rf ~/.hcp/*
 
 # Start the service in the background
 hcp service start &
@@ -23,7 +23,7 @@ sleep 1
 
 echo "Checking clipboard history file..."
 # Check that history file exists and contains both entries
-if grep -q "Test clipboard entry 1" ~/.hcp/db && grep -q "Test clipboard entry 2" ~/.hcp/db; then
+if hcp list | grep -q "Test clipboard entry 1" && hcp list | grep -q "Test clipboard entry 2"; then
     echo "PASS: Clipboard entries saved to history."
 else
     echo "FAIL: Clipboard entries not found in history."
