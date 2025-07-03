@@ -25,8 +25,8 @@ or as a systemd service (Recommended):
 
 ```sh
 sudo systemctl daemon-reload
-sudo systemctl enable hcp@$(logname).service
-sudo systemctl start hcp@$(logname).service
+sudo systemctl enable hcp.service
+sudo systemctl start hcp.service
 ```
 
 (You will see these instructions after the installation is finished.)
