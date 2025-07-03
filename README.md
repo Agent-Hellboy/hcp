@@ -23,7 +23,20 @@ hcp service start &
 
 or as a systemd service (Recommended):
 
-(You will see these instructions after the installation is finished.)
+(You will see instructions after the installation is finished.)
+```bash
+sudo dpkg -i hcp_1.0.0\(7\).deb 
+(Reading database ... 316541 files and directories currently installed.)
+Preparing to unpack hcp_1.0.0(7).deb ...
+Unpacking hcp (1.0.0) over (1.0.0) ...
+Setting up hcp (1.0.0) ...
+
+After install, enable and start the service with:
+  sudo systemctl daemon-reload
+  sudo systemctl enable hcp@proshan.service
+  sudo systemctl start hcp@proshan.service
+
+```
 
 if you follow it properly you would see something like below
 ```bash 
