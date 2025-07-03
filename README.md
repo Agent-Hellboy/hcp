@@ -2,7 +2,7 @@
 
 - A simple clipboard manager for Linux that saves your clipboard history to a file, with each clipboard entry separated by a distinct marker.
 
-- Save and list clipboard entries: if you've copied (Ctrl+C) text 8 times, you can access all 8 previous clipboard entries—similar to how you can use `git stash pop` to retrieve past stashes.
+- Save and list clipboard entries: if you've copied (Ctrl+C) text 8 times, you can access all 8 previous clipboard entries, similar to how you can use `git stash pop` to retrieve past stashes.
 
 ## Installation
 
