@@ -14,10 +14,16 @@ and reading of the entire history in reverse chronological order.
 #define DB_HPP
 #include <string>
 #include <vector>
+#include <cstdint>
 
 extern const int HCP_MAX_HISTORY;
+constexpr uint32_t MAX_CLIPBOARD_SIZE = 16 * 1024 * 1024; // 16MB typical max
+
 // Block store clipboard history
 void append_clipboard_block(const std::string &entry);
 std::vector<std::string> load_clipboard_blocks();
+
+std::string get_hcp_dir();
+std::string get_hcp_block_db();
 
 #endif // DB_HPP
