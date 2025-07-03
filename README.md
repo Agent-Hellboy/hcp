@@ -29,10 +29,7 @@ Print the Nth entry (as shown in the list):
 
 ## How It Works
 - Clipboard entries are saved in `~/.hcp/db`.
-- Each entry is separated by a line containing only:
-  ```
-  ---hcp-entry---
-  ```
+- Each entry is separated by a line containing only ---hcp-entry---
 - The service logs events to `~/.hcp/service.log`.
 - The maximum number of entries is set by `HCP_MAX_HISTORY` (default: 10).
 
