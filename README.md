@@ -1,26 +1,15 @@
 # hcp
 
-A simple clipboard manager for Linux that saves your clipboard history to a file, with each clipboard entry separated by a distinct marker.
+- A simple clipboard manager for Linux that saves your clipboard history to a file, with each clipboard entry separated by a distinct marker.
 
-## Features
-- Automatically saves every clipboard change (no length restriction)
-- Stores clipboard history in `~/.hcp/db`, with entries separated by `---hcp-entry---`
-- Command-line interface to list and print clipboard history
-- Simple LRU logic to avoid duplicates and limit history size
-- Logs events to `~/.hcp/service.log`
+- Save and list clipboard entries: if you've copied (Ctrl+C) text 8 times, you can access all 8 previous clipboard entries—similar to how you can use `git stash pop` to retrieve past stashes.
 
 ## Installation
 
-### Prerequisites
-- Linux system
-- `g++` (or another C++ compiler)
-- `xclip` (for clipboard access)
-
-### Build
+Download the latest `.deb` package from [the Releases page](https://github.com/Agent-Hellboy/hcp/releases) and install it with:
 ```sh
-make
+sudo dpkg -i hcp_1.0.0.deb
 ```
-This will build the `hcp` executable in the project directory.
 
 ## Usage
 
