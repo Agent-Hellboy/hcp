@@ -25,6 +25,21 @@ or as a systemd service (Recommended):
 
 (You will see these instructions after the installation is finished.)
 
+if you follow it properly you would see something like below
+```bash 
+sudo systemctl status hcp@proshan.service
+[sudo] password for proshan: 
+● hcp@proshan.service - HCP Clipboard Manager Service
+     Loaded: loaded (/etc/systemd/system/hcp@proshan.service; enabled; vendor preset: enabled)
+     Active: active (running) since Fri 2025-07-04 02:50:03 IST; 6min ago
+   Main PID: 3150329 (hcp)
+      Tasks: 1 (limit: 38063)
+     Memory: 292.0K
+     CGroup: /system.slice/system-hcp.slice/hcp@proshan.service
+             └─3150329 /usr/bin/hcp service start
+
+Jul 04 02:50:03 twi-proshan systemd[1]: Started HCP Clipboard Manager Service.
+```
 ### List Clipboard History
 ```sh
 hcp list
