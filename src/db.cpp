@@ -11,7 +11,6 @@
 #include <cstdint>
 
 const int HCP_MAX_HISTORY = 20;
-constexpr uint32_t MAX_CLIPBOARD_SIZE = 16 * 1024 * 1024; // 16MB typical max
 
 std::string get_hcp_dir() {
   const char *home = getenv("HOME");
