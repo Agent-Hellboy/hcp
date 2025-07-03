@@ -29,7 +29,6 @@ cp hcp $PKGDIR/usr/bin/hcp
 
 # Copy files
 cp hcp.service $PKGDIR/etc/systemd/system/hcp@${USER}.service
-chown -R root:root $PKGDIR
 
 # Build the .deb package
 dpkg-deb --build $PKGDIR
