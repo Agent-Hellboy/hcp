@@ -1,6 +1,7 @@
 #include "db.hpp"
 #include "logging.hpp"
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
 #include <fstream>
 #include <string>
@@ -8,7 +9,6 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <vector>
-#include <cstdint>
 
 const int HCP_MAX_HISTORY = 20;
 

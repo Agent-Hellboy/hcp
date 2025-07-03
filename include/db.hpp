@@ -12,9 +12,9 @@ and reading of the entire history in reverse chronological order.
 */
 #ifndef DB_HPP
 #define DB_HPP
+#include <cstdint>
 #include <string>
 #include <vector>
-#include <cstdint>
 
 extern const int HCP_MAX_HISTORY;
 constexpr uint32_t MAX_CLIPBOARD_SIZE = 16 * 1024 * 1024; // 16MB typical max
