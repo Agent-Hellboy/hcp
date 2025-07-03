@@ -19,7 +19,7 @@ jobs:
         run: |
           cd hcp
           chmod +x build_deb.sh
-          ./build_deb.sh
+          VERSION=${GITHUB_REF##*/} ./build_deb.sh
           mv hcp_*.deb ../
 
       - name: Find .deb package

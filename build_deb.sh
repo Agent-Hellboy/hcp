@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION=1.0.0
+VERSION=${VERSION:-1.0.0}
 PKGDIR=hcp_$VERSION
 
 # Clean up any previous build
@@ -17,7 +17,7 @@ Version: $VERSION
 Section: utils
 Priority: optional
 Architecture: amd64
-Maintainer: Prince Roshan <proshankrroshan01@gmail.com>
+Maintainer: Prince Roshan <princekrroshan01@gmail.com>
 Description: HCP - Historical Clipboard Manager
  A historical clipboard manager with LRU history and systemd integration.
 Depends: xclip
@@ -34,9 +34,11 @@ chown -R root:root $PKGDIR
 # Build the .deb package
 dpkg-deb --build $PKGDIR
 
-echo "\nPackage built: $PKGDIR.deb"
+echo "\nPackage built: $PKGDIR.deb (VERSION=$VERSION)"
 echo "To install: sudo dpkg -i $PKGDIR.deb"
+echo "If you see dependency errors, run: sudo apt-get install -f"
 echo "After install, enable and start the service with:"
 echo "  sudo systemctl daemon-reload"
 echo "  sudo systemctl enable hcp@${USER}.service"
-echo "  sudo systemctl start hcp@${USER}.service" 
+echo "  sudo systemctl start hcp@${USER}.service"
+echo "\nYou can override the version by running: VERSION=your_version ./build_deb.sh" 
