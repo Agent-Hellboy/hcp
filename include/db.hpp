@@ -4,6 +4,8 @@ binary blocks where each block contains:
 - 4-byte length (uint32_t) of the clipboard content
 - Variable-length clipboard content data
 
+[4 bytes length][N bytes clipboard text]
+
 The format allows efficient appending of new entries
 and reading of the entire history in reverse chronological order.
 

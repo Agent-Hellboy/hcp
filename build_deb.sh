@@ -28,11 +28,12 @@ cat > $PKGDIR/DEBIAN/postinst <<'POSTINST'
 #!/bin/sh
 set -e
 
+USERNAME=$(logname 2>/dev/null || echo root)
 echo ""
 echo "After install, enable and start the service with:"
 echo "  sudo systemctl daemon-reload"
-echo "  sudo systemctl enable hcp@root.service"
-echo "  sudo systemctl start hcp@root.service"
+echo "  sudo systemctl enable hcp@${USERNAME}.service"
+echo "  sudo systemctl start hcp@${USERNAME}.service"
 echo ""
 POSTINST
 chmod 755 $PKGDIR/DEBIAN/postinst
@@ -42,7 +43,7 @@ make
 cp hcp $PKGDIR/usr/bin/hcp
 
 # Copy files
-cp hcp.service $PKGDIR/etc/systemd/system/hcp@${USER}.service
+cp hcp.service $PKGDIR/etc/systemd/system/hcp@${USERNAME}.service
 
 # Build the .deb package
 dpkg-deb --build $PKGDIR
@@ -52,6 +53,6 @@ echo "To install: sudo dpkg -i $PKGDIR.deb"
 echo "If you see dependency errors, run: sudo apt-get install -f"
 echo "After install, enable and start the service with:"
 echo "  sudo systemctl daemon-reload"
-echo "  sudo systemctl enable hcp@${USER}.service"
-echo "  sudo systemctl start hcp@${USER}.service"
+echo "  sudo systemctl enable hcp@${USERNAME}.service"
+echo "  sudo systemctl start hcp@${USERNAME}.service"
 echo "\nYou can override the version by running: VERSION=your_version ./build_deb.sh" 

@@ -16,7 +16,16 @@ sudo dpkg -i hcp_1.0.0.deb
 ### Start the Clipboard Service
 This will monitor your clipboard and save changes:
 ```sh
-hcp service start
+hcp service start &
+```
+
+or as a systemd service (Recommended):
+(You will see these instructions after the installation is finished.)
+
+```sh
+sudo systemctl daemon-reload
+sudo systemctl enable hcp@$(logname).service
+sudo systemctl start hcp@$(logname).service
 ```
 
 ### List Clipboard History
