@@ -10,22 +10,22 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential xclip dpkg-dev gh
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Build .deb package
+      - name: Build in Ubuntu 20.04 Docker container
         run: |
-          VERSION="${GITHUB_REF##*/}"
-          chmod +x build_deb.sh
-          VERSION=${VERSION#v} ./build_deb.sh
+          docker run --rm -v $PWD:/src -w /src ubuntu:20.04 bash -c "
+            apt-get update &&
+            apt-get install -y build-essential xclip dpkg-dev &&
+            VERSION=${GITHUB_REF##*/} ./build_deb.sh
+          "
 
       - name: Create GitHub Release if not exists
         run: |
