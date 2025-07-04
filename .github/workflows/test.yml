@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libx11-dev libx11-6 dpkg xvfb
+          sudo apt-get install -y libx11-dev libx11-6 dpkg xvfb xclip
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,7 +34,7 @@ jobs:
         run: |
           echo "Current working directory before build: $(pwd)"
           echo "Content inside the directory ${ls}"
-          
+
       - name: Build latest .deb
         run: |
           chmod +x build_deb.sh
