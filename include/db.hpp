@@ -22,7 +22,7 @@ constexpr uint32_t MAX_CLIPBOARD_SIZE = 16 * 1024 * 1024; // 16MB typical max
 // Block store clipboard history
 void append_clipboard_block(const std::string &entry);
 std::vector<std::string> load_clipboard_blocks();
-
+void pop_clipboard_entry();
 std::string get_hcp_dir();
 std::string get_hcp_block_db();
 
