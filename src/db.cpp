@@ -106,8 +106,6 @@ void pop_clipboard_entry() {
   // Rewrite the block file
   std::ofstream out(get_hcp_block_db(), std::ios::binary | std::ios::trunc);
   for (const auto &entry : history) {
-    uint32_t flag = 0x01;
-    out.write(reinterpret_cast<const char *>(&flag), sizeof(flag));
     uint32_t len = entry.size();
     out.write(reinterpret_cast<const char *>(&len), sizeof(len));
     out.write(entry.data(), len);
