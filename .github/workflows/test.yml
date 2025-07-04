@@ -25,23 +25,20 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y xclip wget dpkg xvfb
+          sudo apt-get install -y libx11-dev libx11-6 dpkg xvfb
 
-      - name: Download latest .deb from GitHub Releases
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build latest .deb
         run: |
-          LATEST_URL=$(curl -s https://api.github.com/repos/Agent-Hellboy/hcp/releases/latest | grep browser_download_url | grep .deb | cut -d '"' -f 4)
-          wget "$LATEST_URL" -O hcp_latest.deb
+          chmod +x build_deb.sh
+          ./build_deb.sh
 
       - name: Install hcp .deb
         run: |
-          sudo dpkg -i hcp_latest.deb
+          sudo dpkg -i hcp-*.deb
           sudo apt-get install -f -y
-
-      - name: Checkout test script
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            test_hcp.sh
 
       - name: Make test script executable
         run: chmod +x test_hcp.sh
