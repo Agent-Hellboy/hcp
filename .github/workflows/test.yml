@@ -33,7 +33,8 @@ jobs:
       - name: Show current working directory (before build)
         run: |
           echo "Current working directory before build: $(pwd)"
-
+          echo "Content inside the directory ${ls}"
+          
       - name: Build latest .deb
         run: |
           chmod +x build_deb.sh
@@ -42,10 +43,11 @@ jobs:
       - name: Show current working directory (before install)
         run: |
           echo "Current working directory before install: $(pwd)"
+          echo "Content inside the directory ${ls}"
 
       - name: Install hcp .deb
         run: |
-          sudo dpkg -i hcp-*.deb
+          sudo dpkg -i hcp_*.deb
           sudo apt-get install -f -y
 
       - name: Make test script executable
