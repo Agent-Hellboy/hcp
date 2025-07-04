@@ -3,9 +3,8 @@
 
 # hcp
 
-- A simple clipboard manager for Linux that saves your clipboard history to a file, with each clipboard entry separated by a distinct marker.
-
-- Save and list clipboard entries: if you've copied (Ctrl+C) text 8 times, you can access all 8 previous clipboard entries—similar to how you can use `git stash pop` to retrieve past stashes.
+- A lightweight clipboard manager for Linux that stores your clipboard history, allowing you to access and reuse past entries—much like how git stash works for code changes.
+- Capture and browse clipboard entries: every time you copy (Ctrl+C) something, it’s saved. So if you’ve copied text 8 times, you can view and retrieve all 8 previous entries, just like accessing stashes in Git.
 
 **Note:** This project currently targets POSIX systems only and uses APIs such as `mkdir`, `getenv`, `popen`, and `stat`. If there is significant user interest, I plan to migrate to cross-platform C++17 APIs in the future.
 
