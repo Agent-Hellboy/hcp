@@ -48,4 +48,16 @@ else
     exit 1
 fi
 
+echo "Testing pop command..."
+# Pop the most recent entry
+hcp pop
+
+# Check that only the first entry remains
+if hcp list | grep -q "Test clipboard entry 1" && ! hcp list | grep -q "Test clipboard entry 2"; then
+    echo "PASS: Pop command works. Most recent entry removed."
+else
+    echo "FAIL: Pop command did not remove the most recent entry as expected."
+    exit 1
+fi
+
 echo "All tests passed." 
