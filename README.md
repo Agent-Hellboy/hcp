@@ -71,14 +71,10 @@ hcp 2
 - Each entry is stored as: 4-byte length (uint32_t) followed by the clipboard content data.
 - The format allows efficient appending and reading of the entire history in reverse chronological order.
 - The service logs events to `~/.hcp/service.log`.
-- The maximum number of entries is set by `HCP_MAX_HISTORY` (default: 10).
 
 ## Troubleshooting
-- Make sure `xclip` is installed and working:
-  ```sh
-  xclip -selection clipboard -o
-  ```
 - If `~/.hcp/history.block` is not created, check `~/.hcp/service.log` for errors.
+- You can check service log using `sudo systemctl status hcp.service` 
 
 ## License
 See [LICENSE](LICENSE).

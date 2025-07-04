@@ -6,7 +6,7 @@ SRCS=$(wildcard src/*.cpp)
 all: $(TARGET)
 
 $(TARGET): $(SRCS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS) -lX11
 
 clean:
 	rm -f $(TARGET) 

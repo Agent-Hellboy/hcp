@@ -11,6 +11,9 @@ mkdir -p $PKGDIR/DEBIAN
 mkdir -p $PKGDIR/usr/bin
 mkdir -p $PKGDIR/etc/systemd/system
 
+# Ensure build dependency is installed
+sudo apt-get update && sudo apt-get install -y libx11-dev
+
 # Create control file
 cat > $PKGDIR/DEBIAN/control <<EOF
 Package: hcp
@@ -21,7 +24,7 @@ Architecture: amd64
 Maintainer: Prince Roshan <princekrroshan01@gmail.com>
 Description: HCP - Historical Clipboard Manager
  A historical clipboard manager with LRU history and systemd integration.
-Depends: xclip
+Depends: libx11-6
 EOF
 
 # Create postinst script directly
