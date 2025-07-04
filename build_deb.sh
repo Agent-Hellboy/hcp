@@ -12,7 +12,7 @@ mkdir -p $PKGDIR/usr/bin
 mkdir -p $PKGDIR/etc/systemd/system
 
 # Ensure build dependency is installed
-sudo apt-get update && sudo apt-get install -y libx11-dev
+apt-get update && apt-get install -y libx11-dev
 
 # Create control file
 cat > $PKGDIR/DEBIAN/control <<EOF
