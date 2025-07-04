@@ -2,6 +2,7 @@
 #include "clipboard_mgmt.hpp"
 #include "db.hpp"
 #include "logging.hpp"
+#include <X11/Xlib.h>
 #include <algorithm>
 #include <chrono>
 #include <iostream>
@@ -10,12 +11,17 @@
 
 void run_service() {
   log_event("[hcp] Service started.");
+  Display *display = XOpenDisplay(nullptr);
+  if (!display) {
+    log_event("[hcp] ERROR: Cannot open X11 display");
+    return;
+  }
   std::string last_clip;
   auto history = load_clipboard_blocks();
   if (!history.empty())
     last_clip = history.front();
   while (true) {
-    std::string current = get_clipboard();
+    std::string current = get_clipboard(display);
     if (!current.empty() && current != last_clip) {
       append_clipboard_block(current);
       last_clip = current;
@@ -24,6 +30,7 @@ void run_service() {
     }
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
   }
+  XCloseDisplay(display);
 }
 
 void list_history() {
