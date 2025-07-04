@@ -16,6 +16,26 @@ Download the latest `.deb` package from [the Releases page](https://github.com/A
 sudo dpkg -i hcp_1.0.0.deb
 ```
 
+```
+./hcp 
+hcp - Historical Clipboard Manager for X11
+
+Usage:
+  hcp service start        # Start clipboard monitoring service
+  hcp list                 # List clipboard history
+  hcp <index>              # Print clipboard entry at <index>
+  hcp pop                  # Remove most recent clipboard entry
+  hcp --help | -h          # Show this help message
+
+Description:
+  hcp is a lightweight clipboard manager for X11 systems. It captures clipboard entries,
+  maintains a history, and allows you to list, print, or remove entries.
+  Designed for reliability and minimalism, it works directly with the X11 clipboard
+  and is suitable for use as a background service or on-demand.
+
+```
+
+
 ## Usage
 
 ### Start the Clipboard Service
