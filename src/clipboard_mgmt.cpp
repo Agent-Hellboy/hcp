@@ -106,18 +106,25 @@ Clipboard Copy/Paste Flow in X11:
 
 Explanation of the select() Event Loop Flow Diagram:
 
-1. Start clipboard request: The program initiates a clipboard data request using XConvertSelection().
-2. Get X11 file descriptor: It retrieves the file descriptor for the X11 connection using ConnectionNumber(display).
+1. Start clipboard request: The program initiates a clipboard data request using
+XConvertSelection().
+2. Get X11 file descriptor: It retrieves the file descriptor for the X11
+connection using ConnectionNumber(display).
 3. Set timeout: A timeout (e.g., 1 second) is set using a timeval struct.
-4. Wait for data or timeout: The program uses select() to wait for data (an event) on the X11 file descriptor, or for the timeout to occur.
+4. Wait for data or timeout: The program uses select() to wait for data (an
+event) on the X11 file descriptor, or for the timeout to occur.
 5. Two possible outcomes:
    - Data available:
-     - If data is available, check with XPending() if there are any X events in the queue.
+     - If data is available, check with XPending() if there are any X events in
+the queue.
      - If yes, use XNextEvent() to get the next event.
-     - If the event is SelectionNotify, the clipboard data is ready and the process is done.
-     - If not, the loop continues until the timeout or a matching event is found.
+     - If the event is SelectionNotify, the clipboard data is ready and the
+process is done.
+     - If not, the loop continues until the timeout or a matching event is
+found.
    - Timeout:
-     - If no data arrives within the timeout, the program destroys the dummy window and returns an empty string, indicating failure.
+     - If no data arrives within the timeout, the program destroys the dummy
+window and returns an empty string, indicating failure.
 
 */
 #include "clipboard_mgmt.hpp"
@@ -138,7 +145,8 @@ std::string get_clipboard(Display *display) {
     return "";
   }
 
-  Window window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0, 1, 1, 0, 0, 0);
+  Window window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0,
+                                      1, 1, 0, 0, 0);
   if (window == None) {
     return "";
   }
@@ -154,9 +162,9 @@ std::string get_clipboard(Display *display) {
   while (true) {
     FD_ZERO(&readfds);
     FD_SET(x11_fd, &readfds);
-    timeout.tv_sec = 1;  // 1 second timeout
+    timeout.tv_sec = 1; // 1 second timeout
     timeout.tv_usec = 0;
-    
+
     if (select(x11_fd + 1, &readfds, NULL, NULL, &timeout) > 0) {
       if (XPending(display)) {
         XNextEvent(display, &event);
