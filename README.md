@@ -17,7 +17,7 @@ sudo dpkg -i hcp_1.0.0.deb
 ```
 
 ```
-./hcp 
+hcp 
 hcp - Historical Clipboard Manager for X11
 
 Usage:
