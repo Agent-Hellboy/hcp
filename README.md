@@ -1,3 +1,6 @@
+[![Build Status](https://github.com/Agent-Hellboy/hcp/actions/workflows/test.yml/badge.svg)](https://github.com/Agent-Hellboy/hcp/actions/workflows/test.yml)
+[![Latest Release](https://img.shields.io/github/v/release/Agent-Hellboy/hcp?label=release)](https://github.com/Agent-Hellboy/hcp/releases)
+
 # hcp
 
 - A simple clipboard manager for Linux that saves your clipboard history to a file, with each clipboard entry separated by a distinct marker.
