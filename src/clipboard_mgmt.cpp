@@ -185,9 +185,9 @@ std::string get_clipboard(Display *display) {
 
   // Limit clipboard data to reasonable size (e.g., 1MB)
   const long max_clipboard_size = 1024 * 1024;
-  int result = XGetWindowProperty(display, window, target, 0, max_clipboard_size, False,
-                                  AnyPropertyType, &actual_type, &actual_format,
-                                  &nitems, &bytes_after, &prop);
+  int result = XGetWindowProperty(
+      display, window, target, 0, max_clipboard_size, False, AnyPropertyType,
+      &actual_type, &actual_format, &nitems, &bytes_after, &prop);
 
   std::string clipboard_content;
   if (result == Success && prop) {
