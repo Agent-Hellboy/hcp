@@ -54,11 +54,25 @@ void print_entry(int index) {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    std::cerr << "Usage: hcp <command> [args]\nCommands: service start | list "
-                 "| <index>"
-              << std::endl;
-    return 1;
+  if (argc < 2 || std::string(argv[1]) == "--help" || std::string(argv[1]) == "-h") {
+    // ANSI escape codes for color
+    const char* bold = "\033[1m";
+    const char* green = "\033[32m";
+    const char* cyan = "\033[36m";
+    const char* reset = "\033[0m";
+    std::cout << bold << green << "hcp - Historical Clipboard Manager for X11" << reset << std::endl;
+    std::cout << cyan << "\nUsage:" << reset << std::endl;
+    std::cout << "  hcp service start        " << cyan << "# Start clipboard monitoring service" << reset << std::endl;
+    std::cout << "  hcp list                 " << cyan << "# List clipboard history" << reset << std::endl;
+    std::cout << "  hcp <index>              " << cyan << "# Print clipboard entry at <index>" << reset << std::endl;
+    std::cout << "  hcp pop                  " << cyan << "# Remove most recent clipboard entry" << reset << std::endl;
+    std::cout << "  hcp --help | -h          " << cyan << "# Show this help message" << reset << std::endl;
+    std::cout << "\n" << bold << "Description:" << reset << std::endl;
+    std::cout << "  hcp is a lightweight clipboard manager for X11 systems. It captures clipboard entries,\n"
+                 "  maintains a history, and allows you to list, print, or remove entries.\n"
+                 "  Designed for reliability and minimalism, it works directly with the X11 clipboard\n"
+                 "  and is suitable for use as a background service or on-demand.\n" << std::endl;
+    return 0;
   }
   std::string cmd = argv[1];
   if (cmd == "service" && argc > 2 && std::string(argv[2]) == "start") {
