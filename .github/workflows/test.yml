@@ -30,20 +30,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Show current working directory (before build)
-        run: |
-          echo "Current working directory before build: $(pwd)"
-          echo "Content inside the directory ${ls}"
-
       - name: Build latest .deb
         run: |
           chmod +x build_deb.sh
           ./build_deb.sh
-
-      - name: Show current working directory (before install)
-        run: |
-          echo "Current working directory before install: $(pwd)"
-          echo "Content inside the directory ${ls}"
 
       - name: Install hcp .deb
         run: |
