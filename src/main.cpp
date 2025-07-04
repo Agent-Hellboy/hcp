@@ -58,6 +58,8 @@ int main(int argc, char *argv[]) {
     run_service();
   } else if (cmd == "list") {
     list_history();
+  } else if (cmd == "pop") {
+    pop_clipboard_entry();
   } else {
     try {
       int idx = std::stoi(cmd);

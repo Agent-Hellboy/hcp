@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
+#include <iostream>
 #include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -88,4 +89,27 @@ std::vector<std::string> load_clipboard_blocks() {
   }
   std::reverse(history.begin(), history.end()); // Most recent first
   return history;
+}
+
+void pop_clipboard_entry() {
+  std::vector<std::string> history = load_clipboard_blocks();
+  if (history.empty()) {
+    log_event("[hcp] ERROR: No clipboard entries to pop");
+    return;
+  }
+  std::string block = history.front();
+
+  std::cout << block << std::endl;
+
+  // Remove the most recent entry
+  history.erase(history.begin());
+  // Rewrite the block file
+  std::ofstream out(get_hcp_block_db(), std::ios::binary | std::ios::trunc);
+  for (const auto &entry : history) {
+    uint32_t flag = 0x01;
+    out.write(reinterpret_cast<const char *>(&flag), sizeof(flag));
+    uint32_t len = entry.size();
+    out.write(reinterpret_cast<const char *>(&len), sizeof(len));
+    out.write(entry.data(), len);
+  }
 }
