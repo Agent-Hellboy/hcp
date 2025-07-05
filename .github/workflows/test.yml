@@ -33,7 +33,7 @@ jobs:
       - name: Build latest .deb
         run: |
           chmod +x build_deb.sh
-          ./build_deb.sh
+          sudo -E ./build_deb.sh
 
       - name: Install hcp .deb
         run: |
