@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <cstdlib>
 
 void run_service() {
   log_event("[hcp] Service started.");
@@ -54,6 +55,24 @@ void print_entry(int index) {
 }
 
 int main(int argc, char *argv[]) {
+  // Detect non-X11 session and warn
+  const char *session_type = getenv("XDG_SESSION_TYPE");
+  const char *display_env = getenv("DISPLAY");
+  bool not_x11 = false;
+  if (session_type) {
+    std::string stype(session_type);
+    if (stype != "x11") not_x11 = true;
+  } else if (!display_env) {
+    not_x11 = true;
+  }
+  if (not_x11) {
+    // ANSI escape codes for bold red
+    const char *bold = "\033[1m";
+    const char *red = "\033[31m";
+    const char *reset = "\033[0m";
+    std::cerr << bold << red << "[hcp] WARNING: You're not running an X11 session. Clipboard history polling is only supported under X11.\n" << reset;
+    std::cerr << bold << red << "         Clipboard polling is NOT supported under Wayland or other non-X11 display systems due to security restrictions." << reset << std::endl;
+  }
   if (argc < 2 || std::string(argv[1]) == "--help" ||
       std::string(argv[1]) == "-h") {
     // ANSI escape codes for color
