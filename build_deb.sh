@@ -4,11 +4,10 @@ set -e
 # Check for X11 session
 if [ "${XDG_SESSION_TYPE:-}" != "x11" ] && [ -z "$DISPLAY" ]; then
   DETECTED_SERVER="${XDG_SESSION_TYPE:-unknown}"
-  echo -e "\033[1;31m[hcp] ERROR: You are not running an X11 session.\033[0m"
-  echo -e "\033[1;31m        Detected display server: $DETECTED_SERVER\033[0m"
-  echo -e "\033[1;31m        We will add support for '$DETECTED_SERVER' later.\033[0m"
-  echo -e "\033[1;31m        Please switch your display server to X11 until we figure out full support.\033[0m"
-  exit 1
+  echo -e "\033[1;33m[hcp] WARNING: You are not running an X11 session.\033[0m"
+  echo -e "\033[1;33m        Detected display server: $DETECTED_SERVER\033[0m"
+  echo -e "\033[1;33m        We will add support for '$DETECTED_SERVER' later.\033[0m"
+  echo -e "\033[1;33m        Please switch your display server to X11 until we figure out full support.\033[0m"
 fi
 
 VERSION=${VERSION:-1.0.0}
