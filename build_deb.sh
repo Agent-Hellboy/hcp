@@ -1,6 +1,39 @@
 #!/bin/bash
 set -e
 
+VERSION=${VERSION:-1.0.0}
+PKGDIR=hcp_$VERSION
+USERNAME=$(logname 2>/dev/null || echo root)
+
+# Clean up any previous build
+rm -rf $PKGDIR
+mkdir -p $PKGDIR/DEBIAN
+mkdir -p $PKGDIR/usr/bin
+mkdir -p $PKGDIR/etc/systemd/system
+
+# Ensure build dependency is installed
+apt-get update && apt-get install -y libx11-dev
+
+# Create control file
+cat > $PKGDIR/DEBIAN/control <<EOF
+Package: hcp
+Version: $VERSION
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Prince Roshan <princekrroshan01@gmail.com>
+Description: HCP - Historical Clipboard Manager
+ A historical clipboard manager with LRU history and systemd integration.
+Depends: libx11-6
+EOF
+
+# Create postinst script directly
+cat > $PKGDIR/DEBIAN/postinst <<'POSTINST'
+#!/bin/sh
+set -e
+
+USERNAME=$(logname 2>/dev/null || echo root)
+
 # Capture relevant environment variables once
 ENV_VARS=$(env | grep -E '^(XDG_SESSION_TYPE|DISPLAY|WAYLAND_DISPLAY|MIR_SOCKET|XAUTHORITY|DBUS_SESSION_BUS_ADDRESS|GDMSESSION|XDG_CURRENT_DESKTOP)=')
 
@@ -35,39 +68,6 @@ if { [ "${XDG_SESSION_TYPE:-}" != "x11" ] && [ -z "$DISPLAY" ]; } || [ -n "$WAYL
   echo -e "\033[1;33m        Please switch your display server to X11 until we figure out full support.\033[0m"
 fi
 
-VERSION=${VERSION:-1.0.0}
-PKGDIR=hcp_$VERSION
-USERNAME=$(logname 2>/dev/null || echo root)
-
-# Clean up any previous build
-rm -rf $PKGDIR
-mkdir -p $PKGDIR/DEBIAN
-mkdir -p $PKGDIR/usr/bin
-mkdir -p $PKGDIR/etc/systemd/system
-
-# Ensure build dependency is installed
-apt-get update && apt-get install -y libx11-dev
-
-# Create control file
-cat > $PKGDIR/DEBIAN/control <<EOF
-Package: hcp
-Version: $VERSION
-Section: utils
-Priority: optional
-Architecture: amd64
-Maintainer: Prince Roshan <princekrroshan01@gmail.com>
-Description: HCP - Historical Clipboard Manager
- A historical clipboard manager with LRU history and systemd integration.
-Depends: libx11-6
-EOF
-
-# Create postinst script directly
-cat > $PKGDIR/DEBIAN/postinst <<'POSTINST'
-#!/bin/sh
-set -e
-
-USERNAME=$(logname 2>/dev/null || echo root)
-
 cat > /etc/systemd/system/hcp@${USERNAME}.service <<EOF
 [Unit]
 Description=HCP Clipboard Manager Service
@@ -90,6 +90,9 @@ echo "After install, enable and start the service with:"
 echo "  sudo systemctl daemon-reload"
 echo "  sudo systemctl enable hcp@${USERNAME}.service"
 echo "  sudo systemctl start hcp@${USERNAME}.service"
+echo ""
+echo "To check if your environment is set up correctly, run:"
+echo "  hcp --diagnostic"
 echo ""
 POSTINST
 chmod 755 $PKGDIR/DEBIAN/postinst

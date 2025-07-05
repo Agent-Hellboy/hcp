@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include <thread>
+#include <vector>
 
 void run_service() {
   log_event("[hcp] Service started.");
@@ -66,19 +67,64 @@ int main(int argc, char *argv[]) {
   } else if (!display_env) {
     not_x11 = true;
   }
-  if (not_x11) {
-    // ANSI escape codes for bold red
-    const char *bold = "\033[1m";
-    const char *red = "\033[31m";
-    const char *reset = "\033[0m";
-    std::cerr << bold << red
-              << "[hcp] WARNING: You're not running an X11 session. Clipboard "
-                 "history polling is only supported under X11.\n"
-              << reset;
-    std::cerr << bold << red
-              << "         Clipboard polling is NOT supported under Wayland or "
-                 "other non-X11 display systems due to security restrictions."
-              << reset << std::endl;
+  if (argc >= 2 && (std::string(argv[1]) == "--diagnostic" ||
+                    std::string(argv[1]) == "diagnostic")) {
+    // Print all relevant environment variables
+    std::vector<std::string> vars = {
+        "XDG_SESSION_TYPE", "DISPLAY",
+        "WAYLAND_DISPLAY",  "MIR_SOCKET",
+        "XAUTHORITY",       "DBUS_SESSION_BUS_ADDRESS",
+        "GDMSESSION",       "XDG_CURRENT_DESKTOP"};
+    std::cout << "[hcp] Environment variables relevant to display server and "
+                 "session (set in this shell):"
+              << std::endl;
+    for (const auto &var : vars) {
+      const char *val = getenv(var.c_str());
+      if (val && *val) {
+        std::cout << "  " << var << "=" << val << std::endl;
+      }
+    }
+    // Detect display server
+    std::string detected_server = "unknown";
+    const char *wayland = getenv("WAYLAND_DISPLAY");
+    const char *mir = getenv("MIR_SOCKET");
+    if (wayland && *wayland)
+      detected_server = "wayland";
+    else if (mir && *mir)
+      detected_server = "mir";
+    else if (session_type && *session_type)
+      detected_server = session_type;
+    std::cout << "[hcp] Detected display server: " << detected_server
+              << std::endl;
+    if (not_x11) {
+      const char *bold = "\033[1m";
+      const char *red = "\033[31m";
+      const char *reset = "\033[0m";
+      std::cout << bold << red
+                << "[hcp] WARNING: You're not running an X11 session. "
+                   "Clipboard history polling is only supported under X11.\n"
+                << reset;
+      std::cout
+          << bold << red
+          << "         Clipboard polling is NOT supported under Wayland or "
+             "other non-X11 display systems due to security restrictions."
+          << reset << std::endl;
+    } else {
+      std::cout << "[hcp] X11 session detected. Clipboard polling should work."
+                << std::endl;
+    }
+    // Try to open X11 display
+    Display *display = XOpenDisplay(nullptr);
+    if (display) {
+      std::cout << "[hcp] XOpenDisplay succeeded: X11 display is accessible."
+                << std::endl;
+      XCloseDisplay(display);
+    } else {
+      std::cout << "[hcp] XOpenDisplay failed: Cannot access X11 display. "
+                   "Check DISPLAY and XAUTHORITY."
+                << std::endl;
+    }
+    return 0;
   }
   if (argc < 2 || std::string(argv[1]) == "--help" ||
       std::string(argv[1]) == "-h") {

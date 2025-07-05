@@ -26,7 +26,7 @@ jobs:
           docker run --rm -v $PWD:/src -w /src ubuntu:20.04 bash -c "
             apt-get update &&
             apt-get install -y build-essential libx11-dev dpkg-dev &&
-            VERSION=$VERSION sudo -E ./build_deb.sh
+            VERSION=$VERSION ./build_deb.sh
           "
 
       - name: Create GitHub Release if not exists

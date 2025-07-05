@@ -4,7 +4,7 @@
 # hcp
 
 - A lightweight clipboard manager for Linux that stores your clipboard history, allowing you to access and reuse past entries much like how git stash works for code changes.
-- Capture and browse clipboard entries: every time you copy (Ctrl+C) something, it’s saved. So if you’ve copied text 8 times, you can view and retrieve all 8 previous entries, just like accessing stashes in Git.
+- Capture and browse clipboard entries: every time you copy (Ctrl+C) something, it's saved. So if you've copied text 8 times, you can view and retrieve all 8 previous entries, just like accessing stashes in Git.
 
 **Note:** This project currently targets POSIX systems only and uses APIs such as `mkdir`, `getenv`, `popen`, and `stat`. If there is significant user interest, I plan to migrate to cross-platform C++17 APIs in the future.
 
@@ -22,25 +22,48 @@ Download the latest `.deb` package from [the Releases page](https://github.com/A
 sudo dpkg -i hcp_1.0.0.deb
 ```
 
-```
-hcp 
-hcp - Historical Clipboard Manager for X11
+## Development
 
-Usage:
-  hcp service start        # Start clipboard monitoring service
-  hcp list                 # List clipboard history
-  hcp <index>              # Print clipboard entry at <index>
-  hcp pop                  # Remove most recent clipboard entry
-  hcp --help | -h          # Show this help message
+To build the .deb package from source, run:
 
-Description:
-  hcp is a lightweight clipboard manager for X11 systems. It captures clipboard entries,
-  maintains a history, and allows you to list, print, or remove entries.
-  Designed for reliability and minimalism, it works directly with the X11 clipboard
-  and is suitable for use as a background service or on-demand.
-
+```sh
+sudo -E ./build_deb.sh
 ```
 
+- The `-E` flag preserves your user environment, ensuring all relevant environment variables are available to the script (required for correct display/session detection).
+- The script will print out the environment variables it detects and warn if you are not running an X11 session.
+- The resulting .deb package will be named `hcp_<version>.deb` in the current directory.
+
+### After Installation: Check Your Environment
+After installing, you should run the following command to check if your environment is set up correctly for clipboard polling:
+
+```sh
+hcp --diagnostic
+```
+
+This will print all relevant environment variables, the detected display server, and warnings if your setup is not compatible with X11 clipboard polling.
+
+### Other Development Instructions
+- Make sure you have the required build dependencies:
+  ```sh
+  sudo apt-get update
+  sudo apt-get install -y build-essential libx11-dev dpkg-dev
+  ```
+- To clean up previous builds, the script automatically removes any old build directories.
+- After building, you can install the package with:
+  ```sh
+  sudo dpkg -i hcp_*.deb
+  sudo apt-get install -f -y  # To fix any missing dependencies
+  ```
+- To test the clipboard manager, you can run:
+  ```sh
+  ./hcp service start &
+  ./hcp list
+  ./hcp pop
+  ```
+- For systemd integration, follow the post-install instructions printed by the script.
+
+---
 
 ## Usage
 
