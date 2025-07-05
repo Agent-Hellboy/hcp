@@ -8,6 +8,13 @@
 
 **Note:** This project currently targets POSIX systems only and uses APIs such as `mkdir`, `getenv`, `popen`, and `stat`. If there is significant user interest, I plan to migrate to cross-platform C++17 APIs in the future.
 
+
+**Note:** This project currently only supports X11 display server. Wayland support has not been implemented yet.
+```bash
+echo $XDG_SESSION_TYPE
+x11
+```
+
 ## Installation
 
 Download the latest `.deb` package from [the Releases page](https://github.com/Agent-Hellboy/hcp/releases) and install it with:
