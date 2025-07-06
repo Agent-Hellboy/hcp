@@ -27,12 +27,8 @@ sudo dpkg -i hcp_1.0.0.deb
 To build the .deb package from source, run:
 
 ```sh
-sudo -E ./build_deb.sh
+sudo  ./build_deb.sh
 ```
-
-- The `-E` flag preserves your user environment, ensuring all relevant environment variables are available to the script (required for correct display/session detection).
-- The script will print out the environment variables it detects and warn if you are not running an X11 session.
-- The resulting .deb package will be named `hcp_<version>.deb` in the current directory.
 
 ### After Installation: Check Your Environment
 After installing, you should run the following command to check if your environment is set up correctly for clipboard polling:
