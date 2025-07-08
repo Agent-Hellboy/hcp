@@ -43,5 +43,17 @@ jobs:
       - name: Make test script executable
         run: chmod +x test_hcp.sh
 
-      - name: Run hcp integration test
+      - name: Run hcp E2E test
         run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' ./test_hcp.sh 
+
+      - name: Build all tests with Makefile
+        run: |
+          cd test
+          make clean
+          make
+
+      - name: Run tray app Unit test
+        run: ./test/test_trey_app
+
+      - name: Run db/clipboard Unit test
+        run: ./test/test_db_clipboard 
