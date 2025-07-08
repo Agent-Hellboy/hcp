@@ -197,3 +197,43 @@ std::string get_clipboard(Display *display) {
   XDestroyWindow(display, window);
   return clipboard_content;
 }
+
+void set_clipboard(Display *display, const std::string &text) {
+  Atom clipboard = XInternAtom(display, "CLIPBOARD", False);
+  Atom utf8 = XInternAtom(display, "UTF8_STRING", False);
+  Atom targets[] = {utf8, XA_STRING};
+
+  Window window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0,
+                                      1, 1, 0, 0, 0);
+  XSetSelectionOwner(display, clipboard, window, CurrentTime);
+
+  XEvent event;
+  bool running = true;
+  while (running) {
+    XNextEvent(display, &event);
+
+    if (event.type == SelectionRequest) {
+      XSelectionRequestEvent *req = &event.xselectionrequest;
+      XEvent respond;
+      memset(&respond, 0, sizeof(respond));
+      respond.xselection.type = SelectionNotify;
+      respond.xselection.display = req->display;
+      respond.xselection.requestor = req->requestor;
+      respond.xselection.selection = req->selection;
+      respond.xselection.target = req->target;
+      respond.xselection.time = req->time;
+      respond.xselection.property = None;
+
+      if (req->target == utf8 || req->target == XA_STRING) {
+        XChangeProperty(display, req->requestor, req->property, req->target, 8,
+                        PropModeReplace, (const unsigned char *)text.c_str(),
+                        text.length());
+        respond.xselection.property = req->property;
+      }
+      XSendEvent(display, req->requestor, 0, 0, &respond);
+      XFlush(display);
+      running = false; // Only serve one request
+    }
+  }
+  XDestroyWindow(display, window);
+}

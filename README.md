@@ -126,3 +126,24 @@ hcp 2
 
 ## License
 See [LICENSE](LICENSE).
+
+## Manual Page
+
+After installing the package, you can view the manual page for usage and options:
+
+```
+man hcp
+```
+
+This provides detailed information about available commands and usage examples.
+
+## Starting the GUI Tray App
+
+After installing, you can enable and start the tray app (which sits in your system tray and provides clipboard history):
+
+```
+sudo systemctl enable hcp-tray@$(whoami).service
+sudo systemctl start hcp-tray@$(whoami).service
+```
+
+This will launch the tray app in the background for your user session.
