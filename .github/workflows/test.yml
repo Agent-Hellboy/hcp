@@ -22,26 +22,23 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: List workspace files
+        run: ls -lR
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libx11-dev libx11-6 dpkg xvfb xclip
-
-      - name: Checkout code
-        uses: actions/checkout@v4
-
+          sudo apt-get install -y libx11-dev libx11-6 dpkg xvfb xclip libgtk-3-dev libappindicator3-dev
       - name: Build latest .deb
         run: |
           chmod +x build_deb.sh
           ./build_deb.sh
-
       - name: Install hcp .deb
         run: |
           sudo dpkg -i hcp_*.deb
           sudo apt-get install -f -y
-
       - name: Make test script executable
         run: chmod +x test_hcp.sh
-
       - name: Run hcp integration test
         run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' ./test_hcp.sh 
