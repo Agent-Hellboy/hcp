@@ -67,6 +67,41 @@ chmod 755 $PKGDIR/DEBIAN/postinst
 make
 cp hcp $PKGDIR/usr/bin/hcp
 
+# Create the man page BEFORE building the .deb
+mkdir -p $PKGDIR/usr/share/man/man1
+cat > $PKGDIR/usr/share/man/man1/hcp.1 <<'EOF'
+.TH hcp 1 "$(date +%Y-%m-%d)" "$VERSION" "hcp manual"
+.SH NAME
+hcp \- Historical Clipboard Manager for X11
+.SH SYNOPSIS
+.B hcp
+[service start | list | <index> | pop | --help | -h]
+.SH DESCRIPTION
+.B hcp
+is a lightweight clipboard manager for X11 systems. It captures clipboard entries, maintains a history, and allows you to list, print, or remove entries. Designed for reliability and minimalism, it works directly with the X11 clipboard and is suitable for use as a background service or on-demand.
+.SH COMMANDS
+.TP
+.B service start
+Start clipboard monitoring service in the background.
+.TP
+.B list
+List clipboard history.
+.TP
+.B <index>
+Print clipboard entry at <index>.
+.TP
+.B pop
+Remove most recent clipboard entry.
+.TP
+.B --help, -h
+Show this help message.
+.SH AUTHOR
+Written by the hcp project contributors.
+.SH SEE ALSO
+clipboard(1)
+EOF
+gzip -f $PKGDIR/usr/share/man/man1/hcp.1
+
 # Build the .deb package
 dpkg-deb --build $PKGDIR
 

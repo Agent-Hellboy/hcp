@@ -130,3 +130,13 @@ hcp 2
 
 ## License
 See [LICENSE](LICENSE).
+
+## Manual Page
+
+After installing the package, you can view the manual page for usage and options:
+
+```
+man hcp
+```
+
+This provides detailed information about available commands and usage examples.
